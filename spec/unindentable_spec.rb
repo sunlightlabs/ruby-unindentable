@@ -63,4 +63,13 @@ c
     x.should == "The first line\n  The second line\n  \nThe fourth line\n"
   end
 
+  it "should not let blank lines break the indent" do
+    x = unindent <<-BLOCK
+      The first line
+
+      The third line
+    BLOCK
+    x.should == "The first line\n\nThe third line\n"
+  end
+
 end
