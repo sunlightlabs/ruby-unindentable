@@ -1,6 +1,4 @@
-require 'rubygems'
-require 'spec'
-require File.expand_path(File.dirname(__FILE__) + '/../lib/unindentable')
+require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Unindentable" do
   include Unindentable
