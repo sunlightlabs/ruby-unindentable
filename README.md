@@ -40,9 +40,8 @@ So that you get the result you expect:
 
 But this doesn't look good in your source.  With Unindentable, you can write:
 
-    include Unindentable
     def hello
-      html = unindent <<-BLOCK
+      html = <<-BLOCK.unindent
         <html>
           <body>
             <p>Hello</p>
