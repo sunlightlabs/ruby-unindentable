@@ -1,30 +1,28 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "Unindentable" do
-  include Unindentable
-
+describe "unindent" do
   it "should handle the README example" do
-    html = unindent <<-BLOCK
+    x = <<-BLOCK.unindent
       <html>
         <body>
           <p>Hello</p>
         </body>
       </html>
     BLOCK
-    html.should == "<html>\n  <body>\n    <p>Hello</p>\n  </body>\n</html>\n"
+    x.should == "<html>\n  <body>\n    <p>Hello</p>\n  </body>\n</html>\n"
   end
 
   it "should handle ugly heredoc against left margin" do
-    x = unindent <<-BLOCK
+    x = <<-BLOCK.unindent
 a
 b
 c
     BLOCK
-    x.should == "a\nb\nc\n"
+    x.unindent.should == "a\nb\nc\n"
   end
 
   it "should handle a basic example" do
-    x = unindent <<-BLOCK
+    x = <<-BLOCK.unindent
       a
       b
       c
@@ -33,7 +31,7 @@ c
   end
 
   it "should handle an example with 2 indent levels" do
-    x = unindent <<-BLOCK
+    x = <<-BLOCK.unindent
       X 1 2
         yada yada
       Z Z Z
@@ -42,7 +40,7 @@ c
   end
 
   it "should handle an example with 3 indent levels" do
-    x = unindent <<-BLOCK
+    x = <<-BLOCK.unindent
           A
         B
       C
@@ -52,7 +50,7 @@ c
   end
 
   it "should preserve varying indent levels a blank line" do
-    x = unindent <<-BLOCK
+    x = <<-BLOCK.unindent
       The first line
         The second line
         
@@ -62,7 +60,7 @@ c
   end
 
   it "should not let blank lines break the indent" do
-    x = unindent <<-BLOCK
+    x = <<-BLOCK.unindent
       The first line
 
       The third line

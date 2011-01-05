@@ -66,3 +66,7 @@ Here are some examples from the Interwebs where people discuss potential solutio
 * http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-core/19111
 * http://www.ruby-forum.com/topic/167227
 * http://www.ruby-forum.com/topic/95472
+
+## Alternatives
+
+* http://rubygems.org/gems/unindent
