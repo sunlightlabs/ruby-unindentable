@@ -1,70 +1,87 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require File.expand_path("../spec_helper", __FILE__)
 
 describe "unindent" do
-  it "should handle the README example" do
-    x = <<-BLOCK.unindent
+  it "leaves empty strings untouched" do
+    x = <<-EOF
+    EOF
+
+    x.unindent.should == x
+  end
+
+  it "unindents html snippet" do
+    x = <<-EOF.unindent
       <html>
         <body>
           <p>Hello</p>
         </body>
       </html>
-    BLOCK
+    EOF
     x.should == "<html>\n  <body>\n    <p>Hello</p>\n  </body>\n</html>\n"
   end
 
-  it "should handle ugly heredoc against left margin" do
-    x = <<-BLOCK.unindent
+  it "leaves unchanged text with no indentation" do
+    x = <<-EOF.unindent
 a
 b
 c
-    BLOCK
-    x.unindent.should == "a\nb\nc\n"
+    EOF
+    x.unindent.should == x
   end
 
-  it "should handle a basic example" do
-    x = <<-BLOCK.unindent
+  it "removes all leading spaces from text with all lines indented at the same level" do
+    x = <<-EOF.unindent
       a
       b
       c
-    BLOCK
+    EOF
     x.should == "a\nb\nc\n"
   end
 
-  it "should handle an example with 2 indent levels" do
-    x = <<-BLOCK.unindent
+  it "unindents a text with 2 level indentation" do
+    x = <<-EOF.unindent
       X 1 2
         yada yada
       Z Z Z
-    BLOCK
+    EOF
     x.should == "X 1 2\n  yada yada\nZ Z Z\n"
   end
 
-  it "should handle an example with 3 indent levels" do
-    x = <<-BLOCK.unindent
+  it "unindents text with 3 level indentation" do
+    x = <<-EOF.unindent
           A
         B
       C
         D
-    BLOCK
+    EOF
     x.should == "    A\n  B\nC\n  D\n"
   end
 
-  it "should preserve varying indent levels a blank line" do
-    x = <<-BLOCK.unindent
+  it "preserves indented blank lines" do
+    x = <<-EOF.unindent
       The first line
         The second line
-        
+\s\s\s\s\s\s\s\s
       The fourth line
-    BLOCK
+    EOF
     x.should == "The first line\n  The second line\n  \nThe fourth line\n"
   end
 
-  it "should not let blank lines break the indent" do
-    x = <<-BLOCK.unindent
+  it "unindents tabbed indentation" do
+    x = <<-EOF.unindent
+\t\t\tThe first line
+\t\t\t\tThe second line
+\t\t\t\t
+\t\t\tThe fourth line
+    EOF
+    x.should == "The first line\n\tThe second line\n\t\nThe fourth line\n"
+  end
+
+  it "preserves empty lines" do
+    x = <<-EOF.unindent
       The first line
 
       The third line
-    BLOCK
+    EOF
     x.should == "The first line\n\nThe third line\n"
   end
 
